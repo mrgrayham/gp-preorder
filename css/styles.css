@@ -1,0 +1,219 @@
+/**Navbar Styles**/
+
+.navbar {
+    background-color: #2E7D32;
+    border: 0;
+    border-radius: 0;
+}
+
+#logo {
+    margin-top: 0.25em;
+    margin-left: 1.25em;
+}
+
+#filter {
+    margin-top: 1em;
+}
+
+#labelFilter {
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+#btnLogout {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+
+/**.Navbar Styles**/
+
+
+/** Button Styles**/
+
+.btn-primary {
+    background-color: #2E7D32;
+    border-color: #2E7D32;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #1B5E20;
+    border-color: #1B5E20;
+}
+
+.btn-primary:active:focus {
+    background-color: #2E7D32;
+    border-color: #2E7D32;
+}
+
+.btnUpdate {
+    margin-top: 1em;
+    margin-right: 1em;
+}
+
+.btnDelete {
+    margin-top: 1em;
+}
+
+
+/**.Button Styles**/
+
+
+/**Table Styles**/
+
+.table th {
+    text-decoration: underline;
+    text-decoration-color: #000000;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+
+/**.Table Styles**/
+
+
+/**Action Bar Styles **/
+
+
+/**.Action Bar Styles **/
+
+
+/**Products Modal Styles **/
+
+.modal-body .inputPrice {
+    width: 80px;
+}
+
+.modal-body .releaseDate {
+    width: 120px;
+}
+
+#addProduct {
+    margin-top: 1em;
+}
+
+#inputProduct {
+    width: 225px;
+}
+
+#inputEmployee {
+    width: 225px;
+}
+
+#inputSystem {
+    width: 225px;
+}
+
+#employeeList {
+    width: 225px;
+}
+
+#systemList {
+    width: 225px;
+}
+
+#systemList th {
+    border-top: 0;
+}
+
+#employeeList th {
+    border-top: 0;
+}
+
+#employeeName {
+    margin-top: 1em;
+}
+
+#productName {
+    margin-top: 1em;
+    width: 300px;
+}
+
+#systemName {
+    margin-top: 1em;
+    width: 300px;
+}
+
+#btnAddEmployee {
+    margin-bottom: 1em;
+}
+
+#btnAddSystem {
+    margin-bottom: 1em;
+}
+
+#btnDeleteEmployee {
+    margin-left: 2.5em;
+}
+
+#btnDeleteSystem {
+    margin-left: 2.5em;
+}
+
+
+/**.Product Modal Styles **/
+
+hr {
+    height: 2px;
+    background-color: #2E7D32;
+}
+
+#headerAddEmployee {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+#headerAddProduct {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+#headerAddSystem {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+#phoneLookup {
+    display: inline;
+}
+
+
+/**Footer Styles**/
+
+.page-footer {
+    margin-top: 1em;
+    color: #FFFFFF;
+    background-color: #2E7D32;
+}
+
+.asterisk {
+    color: #ff0000;
+}
+
+
+/**.Footer Styles**/
+
+
+/**Media Queries **/
+
+
+/* Small Devices, Tablets */
+
+@media only screen and (min-width: 768px) {
+    #btnLogout {
+        margin-left: 1em;
+    }
+    #filter {
+        margin-left: 1em;
+    }
+    #labelFilter {
+        margin-left: 1em;
+    }
+}
+
+
+/**.MediaQueries **/

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Gamer&#39;s Paradise Pre&#45;Orders</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- /.Latest compiled and minified CSS -->
+
+    <!--Overriding Styles-->
+    <link rel="stylesheet" href="css/styles.css">
+    <!--/.Overriding Styles-->
+
+    <!--AngularJS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <!--/.AngularJS-->
+    <!-- test data set -->
+    <script src="scripts/preorders.js"></script>
+    <script src="scripts/products.js"></script>
+    <script src="scripts/employees.js"></script>
+    <script src="scripts/systems.js"></script>
+    <!--/.test data set -->
+</head>
+
+<body>
+    <div ng-app="preorderApp" ng-controller="preordersCtrl">
+        <header>
+            <!--Navbar-->
+            <nav class="navbar navbar-default">
+                <div class="container-fluid col-md-1">
+                    <div class="navbar-header">
+                        <a href="#">
+                            <!-- Logo goes here -->
+                        </a>
+                    </div>
+                </div>
+                <div class="container-fluid col-md-3">
+                    <label id="labelFilter">Filter By:</label>
+                    <select id="filter" ng-model="selectedFilter" ng-options="product as product.productName for product in products">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="container-fluid col-md-4">
+                    <form class="navbar-form navbar-left col-md-3" role="search">
+                        <div class="form-group">
+                            <input type="text" ng-model="searchParams" class="form-control" placeholder="Search">
+                        </div>
+                    </form>
+                </div>
+                <div class="container-fluid col-md-4">
+                    <button id="btnLogout" type="submit" class="btn btn-default">Logout</button>
+                </div>
+            </nav>
+            <!--/.Navbar-->
+        </header>
+        <main>
+            <!--Table of Preorders-->
+            <div class="table-responsive">
+                <table id="preordersTable" class="table">
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th>Date:</th>
+                        <th>Employee:</th>
+                        <th>Title:</th>
+                        <th>System:</th>
+                        <th>Name:</th>
+                        <th>Phone:</th>
+                        <th>Amount Paid:</th>
+                        <th>Status:</th>
+                        <th>Comments:</th>
+                    </tr>
+                    <tr ng-repeat="preorder in preorders | filter: searchParams | filter: selectedFilter">
+                        <td>
+                            <input type="checkbox">
+                        </td>
+                        <td>{{ preorder.date }}</td>
+                        <td>{{ preorder.employee }}</td>
+                        <td>{{ preorder.title }}</td>
+                        <td>{{ preorder.system }}</td>
+                        <td>{{ preorder.customerName }}</td>
+                        <td>{{ preorder.phone }}</td>
+                        <td>{{ preorder.amtPaid }}</td>
+                        <td>{{ preorder.status }}</td>
+                        <td>{{ preorder.comments }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!--/.Table of Preorders-->
+            <!--Action Bar-->
+            <div class="container text-center">
+                <div class="btn-group">
+                    <button id="btnCreatePreorder" type="button" data-toggle="modal" data-target="#modalPreOrder" class="btn btn-default">Create Pre&#45;Order</button>
+
+                    <button id="btnProducts" type="button" data-toggle="modal" data-target="#modalProducts" class="btn btn-default">Manage Products</button>
+
+                    <button id="btnPreorders" type="button" data-toggle="modal" data-target="#modalPreordersList" class="btn btn-default">Manage Pre&#45;Orders</button>
+
+                    <button id="btnInvoice" type="button" class="btn btn-default">Invoice</button>
+                </div>
+            </div>
+            <!--/.Action Bar-->
+            <!--Modals-->
+            <div id="modalPreOrder" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Create Pre&#45;Order</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="addNewPreOrderForm" ng-submit="addNewPreOrderForm.$valid && addPreOrder()" novalidate>
+                                <div class="form-group">
+                                    <label for="employee">Employee:</label>
+                                    <select id="employee" ng-model="selectedEmployee" ng-options="employee as employee.employeeName for employee in employees">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <hr/>
+                                <div class="form-group">
+                                    <label for="customerPhone">Phone Number:</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-model="newPreOrder.phone" id="customerPhone" placeholder="e.g. 7158675309">
+                                        <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="button">Lookup</button>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerEmail">Email:</label>
+                                    <input type="text" class="form-control" id="customerEmail" ng-model="newPreOrder.email" placeholder="e.g. johnnycage@gmail.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="customer">Customer Name:</label>
+                                    <input type="text" class="form-control" id="customerPreOrder" ng-model="newPreOrder.customerName" placeholder="e.g. Johnny Cage">
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerComments">Comments:</label>
+                                    <input type="text" class="form-control" id="customerComments" ng-model="newPreOrder.comments">
+                                </div>
+                                <hr/>
+                                <div class="form-group">
+                                    <label for="preOrderProduct">Product:</label>
+                                    <select id="preOrderProduct" ng-model="selectedItem" ng-options="product as product.productName for product in products">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="preOrderSystem">System:</label>
+                                    <select id="preOrderSystem" ng-model="selectedSystem" ng-options="system as system.systemName for system in systems">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="preOrderPaid">Amount Paid:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">&#36;</span>
+                                        <input type="text" class="form-control inputPrice" ng-model="newPreOrder.amtPaid" aria-label="Amount (to the nearest dollar)" placeholder="00.00">
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+            <!-- /.modalPreOrder -->
+            <!--modalProducts-->
+            <div id="modalProducts" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Available to Pre&#45;Order</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table id="availableProducts" class="table">
+                                    <tr>
+                                        <th>Product Name:</th>
+                                        <th>Price:</th>
+                                        <th>Release Date:</th>
+                                    </tr>
+                                    <tr ng-repeat="product in products">
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ product.productName }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>Product Name:</label>
+                                                <input type="text" ng-model="product.productName" placeholder="Name" />
+                                                <br/>
+                                                <button id="btnUpdateProduct" type="submit" class="btn btn-primary btnUpdate">Save</button>
+                                                <button id="btnDeleteProduct" class="btn btn-danger btnDelete" type="button" ng-click="removeProduct(product)">Delete</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ product.productPrice }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>Product Price:</label>
+                                                <input type="text" ng-model="product.productPrice" placeholder="Price" />
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ product.releaseDate }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>Release Date:</label>
+                                                <input type="text" ng-model="product.releaseDate" placeholder="Release Date" />
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <hr/>
+                            <!--Add a Product-->
+                            <div id="toggleAddProduct">
+                                <h4 id="headerAddProduct" class="modal-title">Add a Product</h4>
+                                <form name="addNewProductForm" ng-submit="addNewProductForm.$valid && addNewProduct()" novalidate>
+                                    <div id="productName" class="form-group">
+                                        <label for="productName">Product Name:</label>
+                                        <input id="inputProduct" type="text" ng-model="newProduct.productName" class="form-control" placeholder="e.g. Injustice 2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productPrice">Price:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">&#36;</span>
+                                            <input type="text" class="form-control inputPrice" ng-model="newProduct.productPrice" aria-label="Amount (to the nearest dollar)" placeholder="00.00">
+                                        </div>
+                                    </div>
+                                    <div class="form-group releaseDate">
+                                        <label for="releaseDate">Release Date:</label>
+                                        <input type="text" class="form-control" id="releaseDate" ng-model="newProduct.releaseDate" placeholder="e.g. 01/01/17">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add Product</button>
+                                </form>
+                            </div>
+                            <!--/.Add a Product-->
+                            <hr/>
+                            <!--Add an Employee-->
+                            <div>
+                                <h4 id="headerAddEmployee" class="modal-title">Add an Employee</h4>
+                                <form name="addNewEmployeeForm" ng-submit="addNewEmployeeForm.$valid && addNewEmployee()" novalidate>
+                                    <div id="employeeName" class="form-group">
+                                        <label for="employeeName">Employee Name:</label>
+                                        <input id="inputEmployee" type="text" class="form-control" ng-model="newEmployee.employeeName" placeholder="e.g. John Doe">
+                                    </div>
+                                    <button id="btnAddEmployee" type="submit" class="btn btn-primary">Add Employee</button>
+                                </form>
+                                <div class="table-responsive">
+                                    <table id="employeeList" class="table">
+                                        <th>
+                                            Employee Name:
+                                        </th>
+                                        <tr ng-repeat="employee in employees">
+                                            <td>
+                                                <span ng-hide="editing" ng-click="editing = true">{{ employee.employeeName }}</span>
+                                                <form ng-show="editing" ng-submit="editing = false">
+                                                    <label>Employee Name:</label>
+                                                    <input type="text" ng-model="employee.employeeName" placeholder="Name" />
+                                                    <br/>
+                                                    <button id="btnUpdateEmployee" type="submit" class="btn btn-primary btnUpdate">Save</button>
+                                                    <button id="btnDeleteEmployee" class="btn btn-danger btnDelete" type="button" ng-click="removeEmployee(employee)">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <!--/.Add an Employee-->
+                                <hr/>
+                                <!--Add a System-->
+                                <div id="toggleAddSystem">
+                                    <h4 id="headerAddSystem" class="modal-title">Add a System</h4>
+                                    <form name="addNewSystemForm" ng-submit="addNewSystemForm.$valid && addNewSystem()">
+                                        <div id="systemName" class="form-group">
+                                            <label for="systemName">System Name:</label>
+                                            <input id="inputSystem" type="text" class="form-control" ng-model="newSystem.systemName" placeholder="e.g. Nintendo Switch">
+                                        </div>
+                                        <button id="btnAddSystem" type="submit" class="btn btn-primary">Add System</button>
+                                    </form>
+                                    <div class="table-responsive">
+                                        <table id="systemList" class="table">
+                                            <th>
+                                                System Name:
+                                            </th>
+                                            <tr ng-repeat="system in systems">
+                                                <td>
+                                                    <span ng-hide="editing" ng-click="editing = true">{{ system.systemName }}</span>
+                                                    <form ng-show="editing" ng-submit="editing = false">
+                                                        <label>System Name:</label>
+                                                        <input type="text" ng-model="system.systemName" placeholder="Name" />
+                                                        <br/>
+                                                        <button id="btnUpdateSystem" type="submit" class="btn btn-primary btnUpdate">Save</button>
+                                                        <button id="btnDeleteSystem" class="btn btn-danger btnDelete" type="button" ng-click="removeSystem(system)">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!--/.Add a System-->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/.modalProducts-->
+            <!-- modalPreordersList -->
+            <div id="modalPreordersList" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Manage Pre&#45;Orders</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>Date:</th>
+                                        <th>Employee:</th>
+                                        <th>Title:</th>
+                                        <th>System:</th>
+                                        <th>Name:</th>
+                                        <th>Phone:</th>
+                                        <th>Amount Paid:</th>
+                                        <th>Status:</th>
+                                        <th>Comments:</th>
+                                    </tr>
+                                    <tr ng-repeat="preorder in preorders">
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ preorder.date }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>Date:</label>
+                                                <input type="text" ng-model="preorder.date" placeholder="Date" />
+                                                <br/>
+                                                <button id="btnUpdatePreorder" type="submit" class="btn btn-primary btnUpdate">Save</button>
+                                                <button id="btnDeletePreorder" class="btn btn-danger btnDelete" type="button" ng-click="removePreorder(preorder)">Delete</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ preorder.employee }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label for="employee">Employee:</label>
+                                                <select ng-model="preorder.employee" ng-options="employee as employee.employeeName for employee in employees">
+                                                    <option value="">{{ preorder.employee }}</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ preorder.title }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>Title:</label>
+                                                <select ng-model="preorder.title" ng-options="product as product.productName for product in products">
+                                        <option value="">{{ preorder.title }}</option>
+                                    </select>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ preorder.system }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>System Name:</label>
+                                                <select ng-model="preorder.system" ng-options="system as system.systemName for system in systems">
+                                                    <option value="">{{ preorder.system }}</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ preorder.customerName }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>Customer Name:</label>
+                                                <input type="text" ng-model="preorder.customerName" placeholder="Customer Name" />
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ preorder.phone }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>Phone Number:</label>
+                                                <input type="text" ng-model="preorder.phone" placeholder="Phone Number" />
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ preorder.amtPaid }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>Amount Paid:</label>
+                                                <input type="text" ng-model="preorder.amtPaid" placeholder="&#36;0.00" />
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ preorder.status }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>Status:</label>
+                                                <select>
+                                                    <option value="Completed">Completed</option>
+                                                    <option value="Not Completed">Not Completed</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span ng-hide="editing" ng-click="editing = true">{{ preorder.comments }}</span>
+                                            <form ng-show="editing" ng-submit="editing = false">
+                                                <label>Comments:</label>
+                                                <input type="text" ng-model="preorder.comments" placeholder="Comments" />
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/.modalPreordersList -->
+            <!--/.Modals-->
+    </div>
+    </main>
+    <footer class="page-footer">
+        <div class="container text-center">
+            <p><span class="asterisk">&#42;</span>Terms &amp; Conditions: The customer may cancel their pre&#45;order at any time. Remind them to please do their best to pick up their pre&#45;order within 5 business days after the item&#40;s&#41; are released. If 7 days have gone by after the item was released and they have still not picked up their pre&#45;order, we will put the item&#40;s&#41; back on the sales floor and will refund their payment in full. </p>
+        </div>
+    </footer>
+    <!--JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!--/.JQuery-->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- /.Latest compiled and minified JavaScript -->
+    <!--Custom JavaScript-->
+    <script src="scripts/main.js"></script>
+    <!--/.Custom JavaScript-->
+</body>
+
+</html>
